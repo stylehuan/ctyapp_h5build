@@ -1,55 +1,59 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="utf-8">
-    <meta name="keywords" content=""/>
-    <meta name="description" content=""/>
-    <title>{{ name }}</title>
-    <script type="text/javascript">
-        (function () {
-            var win = window;
-            var doc = win.document;
-            var psdWidth = 750;
-            var tid;
-            var throttleTime = 100;
-            var metaEl = doc.querySelector('meta[name="viewport"]');
-            if (!metaEl) {
-                metaEl = doc.createElement('meta');
-                metaEl.setAttribute('name', 'viewport');
-                doc.head.appendChild(metaEl);
-            }
-            metaEl.setAttribute('content', 'width=device-width,user-scalable=no,initial-scale=1,maximum-scale=1,minimum-scale=1');
+  <meta charset="utf-8">
+  <meta name="keywords" content=""/>
+  <meta name="description" content=""/>
+  <title>{{ name }}</title>
+  <meta http-equiv="expires" content="0">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Cache-control" content="no-cache">
+  <script type="text/javascript">
+    (function () {
+      var win = window;
+      var doc = win.document;
+      var psdWidth = 750;
+      var tid;
+      var throttleTime = 100;
+      var metaEl = doc.querySelector('meta[name="viewport"]');
+      if (!metaEl) {
+        metaEl = doc.createElement('meta');
+        metaEl.setAttribute('name', 'viewport');
+        doc.head.appendChild(metaEl);
+      }
+      metaEl.setAttribute('content', 'width=device-width,user-scalable=no,initial-scale=1,maximum-scale=1,minimum-scale=1');
 
-            var resizeRem = function () {
-                doc.documentElement.style.fontSize = window.innerWidth / psdWidth * 100 + 'px';
-            };
+      var resizeRem = function () {
+        doc.documentElement.style.fontSize = window.innerWidth / psdWidth * 100 + 'px';
+      };
 
-            win.addEventListener('resize', function () {
-                clearTimeout(tid);
-                tid = setTimeout(resizeRem, throttleTime);
-            }, false);
-            win.addEventListener('pageshow', function (e) {
-                if (e.persisted) {
-                    clearTimeout(tid);
-                    tid = setTimeout(resizeRem, throttleTime);
-                }
-            }, false);
+      win.addEventListener('resize', function () {
+        clearTimeout(tid);
+        tid = setTimeout(resizeRem, throttleTime);
+      }, false);
+      win.addEventListener('pageshow', function (e) {
+        if (e.persisted) {
+          clearTimeout(tid);
+          tid = setTimeout(resizeRem, throttleTime);
+        }
+      }, false);
 
-            resizeRem();
-            if (doc.readyState === 'complete') {
-                resizeRem();
-            } else {
-                doc.addEventListener('DOMContentLoaded', function (e) {
-                    resizeRem();
-                }, false);
-            }
-        })();
-    </script>
+      resizeRem();
+      if (doc.readyState === 'complete') {
+        resizeRem();
+      } else {
+        doc.addEventListener('DOMContentLoaded', function (e) {
+          resizeRem();
+        }, false);
+      }
+    })();
+  </script>
 </head>
 <body>
 <div id="app"></div>
 <% if (htmlWebpackPlugin.options.env) {%>
-<script type="text/javascript" src="https://res.wx.qq.com/mmbizwap/zh_CN/htmledition/js/vconsole/2.5.1/vconsole.min.js"></script>
+<script type="text/javascript"
+        src="https://res.wx.qq.com/mmbizwap/zh_CN/htmledition/js/vconsole/2.5.1/vconsole.min.js"></script>
 <% } %>
 <% if (htmlWebpackPlugin.options.isLocal) {%>
 <script type="text/javascript" src="./static/headers.js"></script>

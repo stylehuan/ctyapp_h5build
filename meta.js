@@ -64,6 +64,7 @@ module.exports = {
         "src/view": "router",
         "src/plugins/appInterface/*": "ProjectType",
         "src/components/lowVersionUpgrade/*": "ProjectType",
+        "static/headers.js": "ProjectType",
         "test/unit/**/*": "unit",
         "build/webpack.test.conf.js": "unit",
     },
