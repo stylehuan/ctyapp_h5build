@@ -19,7 +19,7 @@ import base from 'assets/js/common';
 Vue.use(VueRouter);
 {{/router}}
 
-fastclick.aDttach(document.body);
+fastclick.attach(document.body);
 //采用了节流函数
 window.addEventListener('scroll', throttle(() => {
 

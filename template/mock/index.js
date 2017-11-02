@@ -4,7 +4,7 @@
  * @create  2016-12-14 09:49
  */
 var proxy = require("express-http-proxy");
-var interFace = require("../src/define/interfaces");
+var interFace = require("../src/define/interFaces");
 var CONFIG = {
   isProxy: false,
   main: "http://mobilecardgame.tcy365.org:1505"
@@ -34,7 +34,7 @@ var apiProxy = function () {
 
 module.exports = function (app) {
   //模拟数据
-  var keys = interFace.keys();  //遍历Key
+  var keys = Object.keys(interFace);
   for (var key of keys) {
     app.use(key, apiProxy);
   }
