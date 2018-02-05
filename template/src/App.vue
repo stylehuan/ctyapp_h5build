@@ -12,8 +12,6 @@
 </template>
 
 <script>
-  import base from 'assets/js/common';
-  import {eventBus, eventMsg} from './events/systemEvent';
   export default {
     name: 'app',
     data() {
@@ -25,27 +23,12 @@
     },
     created() {
       {{#ProjectType}}
-      if (base.isInSelfApp) {
-        this.$appInterface.setPageName('抢钱风暴');
-        if (!base.isLocal) {
-          if (!this.$appInterface.isNetConnect()) {
-            this.isShow = false;
-            this.$appInterface.isWebHasError();
-          }
-        }
-        eventBus.$on(eventMsg.CONNECTERROT, () => {
-          console.log('connectError' + '报错信息');
-          this.isShow = false;
-          this.$appInterface.isWebHasError();
-        });
-      }
+
       {{/ProjectType}}
-    },
-    mounted () {
     }
   };
 </script>
 
-<style lang="Less">
-  @import "assets/css/base.less";
+<style lang="less" type="text/less">
+  @import "styles/base";
 </style>

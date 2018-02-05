@@ -5,32 +5,22 @@ var config = require('../config')
 var merge = require('webpack-merge')
 var baseWebpackConfig = require('./webpack.base.conf')
 var HtmlWebpackPlugin = require('html-webpack-plugin')
-var ExtractTextPlugin = require('extract-text-webpack-plugin')
+var ExtractTextPlugin = require('extract-text-webpack-plugin');
 var CopyWebpackPlugin = require('copy-webpack-plugin');
-var env = config.build.env;
-// 接收运行参数
-var argv = require('yargs')
-  .describe('debug', 'debug 环境') // use 'webpack --debug'
-  .argv;
-var _build = argv.debug ? config.test : config.build;
+
 var webpackConfig = merge(baseWebpackConfig, {
   module: {
     rules: utils.styleLoaders({
-      sourceMap: _build.productionSourceMap,
+      sourceMap: false,
       extract: true
     })
   },
-  devtool: _build.productionSourceMap ? '#source-map' : false,
+  devtool: config[process.env.NODE_ENV].productionSourceMap ? '#source-map' : false,
   output: {
-    path: _build.assetsRoot,
     filename: utils.assetsPath('js/[name].[chunkhash].js'),
     chunkFilename: utils.assetsPath('js/[id].[chunkhash].js')
   },
   plugins: [
-    // http://vuejs.github.io/vue-loader/en/workflow/production.html
-    new webpack.DefinePlugin({
-      'process.env': env
-    }),
     new webpack.optimize.UglifyJsPlugin({
       compress: {
         warnings: false
@@ -38,16 +28,17 @@ var webpackConfig = merge(baseWebpackConfig, {
     }),
     // extract css into its own file
     new ExtractTextPlugin({
-      filename: utils.assetsPath('css/[name].[contenthash].css')
+      filename: utils.assetsPath('css/[name].[contenthash].css'),
+      allChunks: true
     }),
     // generate dist index.html with correct asset hash for caching.
     // you can customize output by editing /index.html
     // see https://github.com/ampedandwired/html-webpack-plugin
     new HtmlWebpackPlugin({
-      filename: _build.index,
+      filename: config[process.env.NODE_ENV].index,
       template: 'index.html',
       inject: true,
-      env: !!argv.debug,
+      env: false,
       minify: {
         removeComments: true,
         minifyJS: true,
@@ -82,12 +73,12 @@ var webpackConfig = merge(baseWebpackConfig, {
     new CopyWebpackPlugin([
       {
         from: path.resolve(__dirname, '../static'),
-        to: config.build.assetsSubDirectory
+        to: config[process.env.NODE_ENV].assetsSubDirectory
       }
     ])
   ]
 });
-if (_build.productionGzip) {
+if (config[process.env.NODE_ENV].productionGzip) {
   var CompressionWebpackPlugin = require('compression-webpack-plugin')
   webpackConfig.plugins.push(
     new CompressionWebpackPlugin({
@@ -95,7 +86,7 @@ if (_build.productionGzip) {
       algorithm: 'gzip',
       test: new RegExp(
         '\\.(' +
-        _build.productionGzipExtensions.join('|') +
+        config[env].productionGzipExtensions.join('|') +
         ')$'
       ),
       threshold: 10240,
@@ -103,8 +94,9 @@ if (_build.productionGzip) {
     })
   )
 }
-if (_build.bundleAnalyzerReport) {
+if (config[process.env.NODE_ENV].bundleAnalyzerReport) {
   var BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
   webpackConfig.plugins.push(new BundleAnalyzerPlugin())
 }
-module.exports = webpackConfig
+
+module.exports = webpackConfig;

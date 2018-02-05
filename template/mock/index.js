@@ -4,10 +4,10 @@
  * @create  2016-12-14 09:49
  */
 var proxy = require("express-http-proxy");
-var interFace = require("../src/define/interFaces");
+var interFace = require("../src/config/interfaces");
 var CONFIG = {
   isProxy: false,
-  main: "http://mobilecardgame.tcy365.org:1505"
+  main: ""
 };
 var mockData = require("./mock");
 
@@ -15,8 +15,15 @@ var mockData = require("./mock");
 var apiProxy = function () {
   if (CONFIG.isProxy) {
     return proxy(CONFIG.main, {
-      forwardPath: function (req, res) {
-        return req._parsedUrl.path
+      proxyReqPathResolver: function (req) {
+
+        return req.originalUrl;
+
+        // return new Promise(function (resolve, reject) {
+        //   setTimeout(function () {
+        //     resolve(req.originalUrl);
+        //   }, 7000);
+        // })
       }
     });
   }
@@ -34,8 +41,7 @@ var apiProxy = function () {
 
 module.exports = function (app) {
   //模拟数据
-  var keys = Object.keys(interFace);
-  for (var key of keys) {
-    app.use(key, apiProxy);
+  for (var key in interFace) {
+    app.use(interFace[key], apiProxy);
   }
 };
