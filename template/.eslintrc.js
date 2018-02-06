@@ -5,6 +5,9 @@
  */
 
 module.exports = {
+  globals: {
+    Topi: true
+  },
   root: true,
   parser: 'babel-eslint',//解析器
   parserOptions: { //设置解析器的选项
@@ -60,7 +63,7 @@ module.exports = {
     /*最佳实践*/
     'accessor-pairs': 2,//强制 getter 和 setter 在对象中成对出现
     'curly': [2, 'multi-line'],  //强制所有控制语句使用一致的括号风格
-    'eqeqeq': 2, //要求使用 === 和 !==
+    'eqeqeq': 0, //要求使用 === 和 !==
     'no-alert': 2, //禁用 Alert
     /*'no-eq-null': 2,//禁止在没有类型检查操作符的情况下与 null 进行比较*/
     'no-eval': 2, //禁用 eval()
@@ -78,7 +81,7 @@ module.exports = {
     'consistent-return': 2, //要求 return 语句要么总是指定返回的值，要么不指定
     'dot-notation': 2, //要求使用点号
     'no-else-return': 2,//禁止 if 语句中 return 语句之后有 else 块
-    'no-extend-native': 2,//不要扩展原生对象
+    'no-extend-native': 0,//不要扩展原生对象
     'no-octal': 2,//不要使用八进制字面量
     'no-redeclare': 2, //不要重复声明变量
     'no-extra-bind': 2,//禁止不必要的 .bind() 调用
@@ -100,7 +103,7 @@ module.exports = {
     'block-scoped-var': 0,//强制把变量的使用限制在其定义的作用域范围内
     'one-var': [2, 'never'],//强制函数中的变量分开声明
     'camelcase': [2, {'properties': 'always'}],//强制使用骆驼拼写法命名约定 强制属性名称为驼峰风格
-    "space-before-function-paren": [2, {//函数名之后不能有空格
+    "space-before-function-paren": [0, {//函数名之后不能有空格
       "anonymous": "never", //针对匿名函数表达式
       "named": "never", //针对命名的函数表达式
       "asyncArrow": "never" //针对异步的箭头函数表达式
@@ -133,7 +136,7 @@ module.exports = {
     'no-ternary': 0,//禁用三元操作符
     'no-self-compare': 2,//禁止自身比较
     'no-label-var': 2, //不允许标签与变量同名
-    'no-labels': 2,//不要使用标签语句
+    'no-labels': 0,//不要使用标签语句
     'no-lone-blocks': 2,//禁用不必要的嵌套块
     'no-multi-str': 0, //禁止使用多行字符串
     'no-unneeded-ternary': 0,//如果有更好的实现，尽量不要使用三元表达式

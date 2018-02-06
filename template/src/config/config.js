@@ -4,7 +4,7 @@
  * @create  2018-02-05 20:17
  */
 export default {
-  onRouterEntry(){
+  onRouterEntry() {
 
   },
   onRouterExit() {
@@ -16,4 +16,4 @@ export default {
   onActNoStart() {
 
   }
-}
+};

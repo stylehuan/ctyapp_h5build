@@ -14,6 +14,7 @@ const router = new VueRouter({
   routes,
   transitionOnLoad: false
 });
+
 router.beforeEach((to, from, next) => {
   eventBus.$emit(eventMsg.ROUTER_BEFORE, to, from);
   setTimeout(next, 200);
