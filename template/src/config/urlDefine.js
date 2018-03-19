@@ -5,5 +5,4 @@
  */
 const domain = __domain;
 
-console.log(domain);
 export default domain;

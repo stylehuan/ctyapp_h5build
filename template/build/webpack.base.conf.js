@@ -9,8 +9,6 @@ function resolve(dir) {
   return path.join(__dirname, '..', dir)
 }
 
-
-console.log('process.env.NODE_ENV', process.env.NODE_ENV);
 let webpackConfig = {
   entry: {
     app: './src/main.js'
@@ -34,7 +32,7 @@ let webpackConfig = {
       'util$': resolve('src/util'),
       'define$': resolve('src/define'),
       'view$': resolve('src/view')
-    },
+    }
   },
   externals: {
     'vue': 'window.Vue',

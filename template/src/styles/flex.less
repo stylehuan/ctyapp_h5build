@@ -68,6 +68,16 @@
   -moz-align-items: flex-end;
 }
 
+.g-flex-column {
+  -webkit-box-direction: normal;
+  -moz-box-direction: normal;
+  -ms-box-direction: normal;
+  -webkit-box-orient: vertical;
+  -moz-box-orient: vertical;
+  -ms-box-orient: vertical;
+  flex-direction: column;
+}
+
 /*交叉轴对齐：  居中对齐*/
 .g-flex-align-center {
   -moz-box-align: center;
@@ -113,20 +123,23 @@
   -moz-justify-content: center;
   justify-content: center;
 }
+
 /*flex换行*/
-.g-flex-wrap{
-  -webkit-flex-wrap:wrap;
-  -moz-flex-wrap:wrap;
-  -ms-flex-wrap:wrap;
-  flex-wrap:wrap;
+.g-flex-wrap {
+  -webkit-flex-wrap: wrap;
+  -moz-flex-wrap: wrap;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
 }
+
 /*flex不换行*/
-.g-flex-nowrap{
-  -webkit-flex-wrap:nowrap;
-  -moz-flex-wrap:nowrap;
-  -ms-flex-wrap:nowrap;
-  flex-wrap:nowrap;
+.g-flex-nowrap {
+  -webkit-flex-wrap: nowrap;
+  -moz-flex-wrap: nowrap;
+  -ms-flex-wrap: nowrap;
+  flex-wrap: nowrap;
 }
+
 .flexItem(@flex) {
   -webkit-flex: @flex;
   -moz-flex: @flex;

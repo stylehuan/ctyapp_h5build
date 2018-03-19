@@ -1,2 +1,2 @@
-build/*.js
-config/*.js
+src/config/urlDefine.js
+src/config/env.js

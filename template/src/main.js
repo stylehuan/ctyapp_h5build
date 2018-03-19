@@ -3,20 +3,23 @@ import Vue from 'vue';
 import App from './App';
 import fastclick from 'fastclick';
 import config from './config/config';
-import Topi from 'Topi';
 {{#router}}
 import VueRouter from 'vue-router';
 import router from './router/routerInstance';
 Vue.use(VueRouter);
 {{/router}}
+import '@ta/snail-ui/dist/styles/snail.css';
 
 
 let main = {
   step() {
     fastclick.attach(document.body);
 
-    //加载当前活动配置
-    Topi.loadConfig(config);
+    if (config.preload.isNeed) {
+      this.preload();
+    } else {
+      this.init();
+    }
 
     Vue.config.errorHandler = config.errorHandler || function (err, vm) {
       console.log('----------------', err);
@@ -25,16 +28,12 @@ let main = {
   },
   //预加载配置
   preload() {
-    let self = this;
-    let preload = require.ensure(['./util/preload'], function (require, preload) {
-      Vue.$bee.loading.show("资源加载中");
-      preload(config.preload.resource, () => {
-        if (n === t) {
-          Vue.$bee.loading.hide();
-          self.init();
-        }
-        Vue.$bee.loading.show(parseInt((n / t) * 100) + "%");
-      });
+    Snail.preload(config.preload.resource, function(n, t) {
+      if (n === t) {
+        Vue.$Snail.loading.hide();
+        self.init();
+      }
+      Vue.$Snail.loading.show(parseInt((n / t) * 100) + '%');
     });
   },
   init() {
