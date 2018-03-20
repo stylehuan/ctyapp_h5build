@@ -1,6 +1,5 @@
 import VueRouter from 'vue-router';
 import routerConf from './router';
-import {eventBus, eventMsg} from '../events/systemEvent';
 const routes = [
   {
     path: routerConf.root,
@@ -16,11 +15,9 @@ const router = new VueRouter({
 });
 
 router.beforeEach((to, from, next) => {
-  eventBus.$emit(eventMsg.ROUTER_BEFORE, to, from);
   setTimeout(next, 200);
 });
 router.afterEach(() => {
   console.log('完成');
-  eventBus.$emit(eventMsg.ROUTER_AFTER);
 });
 export default router;

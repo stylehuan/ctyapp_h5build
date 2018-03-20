@@ -8,10 +8,10 @@ import VueRouter from 'vue-router';
 import router from './router/routerInstance';
 Vue.use(VueRouter);
 {{/router}}
+import Snail from '@ta/snail-ui';
 import '@ta/snail-ui/dist/styles/snail.css';
 
-
-let main = {
+const main = {
   step() {
     fastclick.attach(document.body);
 
@@ -28,6 +28,8 @@ let main = {
   },
   //预加载配置
   preload() {
+    const self = this;
+
     Snail.preload(config.preload.resource, function(n, t) {
       if (n === t) {
         Vue.$Snail.loading.hide();
@@ -49,4 +51,5 @@ let main = {
     }).$mount('#app');
   }
 };
+
 main.step();
