@@ -31,4 +31,6 @@
 
 <style lang="less" type="text/less">
   @import "styles/base";
+  @import "styles/main";
+  @import "styles/dialog";
 </style>

@@ -3,7 +3,6 @@ var utils = require('./utils')
 var webpack = require('webpack')
 var config = require('../config')
 var vueLoaderConfig = require('./vue-loader.conf')
-// var ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 function resolve(dir) {
   return path.join(__dirname, '..', dir)
@@ -64,13 +63,6 @@ let webpackConfig = {
         include: [resolve('src')],
         exclude: /node_modules/
       },
-      // {
-      //   test: /\.css/,
-      //   use: ExtractTextPlugin.extract({
-      //     fallback: 'style-loader',
-      //     use: ['css-loader']
-      //   })
-      // },
       {
         test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
         use: [{
