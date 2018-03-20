@@ -116,7 +116,12 @@ let webpackConfig = {
     ]
   },
   plugins: [new webpack.DefinePlugin({
-    __domain: JSON.stringify(config[process.env.NODE_ENV].domain)
+    __domain: JSON.stringify(config[process.env.NODE_ENV].domain),
+    _ENV: {
+      isLocal: process.env.NODE_ENV === 'dev',
+      isTest: process.env.NODE_ENV === '1505' || process.env.NODE_ENV === '1506' || process.env.NODE_ENV === '1507',
+      isPre: process.env.NODE_ENV === '2505'
+    }
   }),]
 };
 
