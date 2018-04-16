@@ -55,18 +55,28 @@
 </head>
 <body>
 <div id="app"></div>
+<!--非正式版，需要请放在该判断分支内-->
 <% if (htmlWebpackPlugin.options.env !== '正式版') {%>
 <script src="//cdn.bootcss.com/eruda/1.4.2/eruda.min.js"></script>
 <script>eruda.init();</script>
 <% } %>
-<% if (htmlWebpackPlugin.options.isLocal) {%>
+
+<!--本地数据，需要请放在该判断分支内-->
+<% if (htmlWebpackPlugin.options.env === 'dev') {%>
 <script type="text/javascript" src="./static/headers.js"></script>
 <% } %>
+
+<!--
+//资源合并方式，请开发人员自行根据需要合并
+//static.tcy365.com/??cdn/vue/2.5.2/vue.min.js,cdn/vuex/3.0.1/vuex.min.js,cdn/vue-router/3.0.1/vue-router.min.js,cdn/vuex/3.0.1/vuex.min.js,cdn/fastClick/1.0.6/fastclick.min.js?v=20180414
+-->
 <script type="text/javascript" src="//static.tcy365.com/cdn/fastClick/1.0.6/fastclick.min.js"></script>
 <script type="text/javascript" src="//static.tcy365.com/cdn/vue/2.5.2/vue.min.js"></script>
 {{#router}}
 <script type="text/javascript" src="//static.tcy365.com/cdn/vue-router/3.0.1/vue-router.min.js"></script>
 {{/router}}
+
+<!--正式版需要添加的，额外资源，比如 ：统计，放在入下分支中-->
 <% if (htmlWebpackPlugin.options.env === '正式版') {%>
 
 <% } %>

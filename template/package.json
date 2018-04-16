@@ -5,14 +5,9 @@
   "author": "{{ author }}",
   "private": true,
   "scripts": {
-    "1505": "cross-env NODE_ENV=1505 node build/build.js",
-    "1506": "cross-env NODE_ENV=1506 node build/build.js",
-    "1507": "cross-env NODE_ENV=1507 node build/build.js",
-    "2505": "cross-env NODE_ENV=2505 node build/build.js",
     "dev": "cross-env NODE_ENV=dev node build/dev-server.js",
     "prod": "cross-env NODE_ENV=prod node build/build.js",
     "build": "npm run prod",
-    "all": "npm run 1505 && npm run 1506 && npm run 1507 && npm run 2505",
     "zip": "node build/zip.js",
     "md5": "node build/md5.js"
   },
@@ -80,6 +75,7 @@
   "vue-style-loader": "^3.0.1",
   "vue-template-compiler": "^2.1.10",
   "webpack": "^3.4.1",
+  "glob": "^7.1.2",
   "webpack-bundle-analyzer": "^2.2.1",
   "webpack-dev-middleware": "^1.10.0",
   "webpack-hot-middleware": "^2.16.1",
