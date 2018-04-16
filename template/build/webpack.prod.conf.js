@@ -7,7 +7,7 @@ const baseWebpackConfig = require('./webpack.base.conf');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
-const tetPlugin = require('../html-webpack-html-asset-prefix');
+const HtmlWebpackAssetPrefix = require('./html-webpack-html-asset-prefix');
 const FileManagerPlugin = require('filemanager-webpack-plugin');
 const domains = require('../config/domain');
 const glob = require('glob');
@@ -70,7 +70,7 @@ const webpackConfig = merge(baseWebpackConfig, {
       filename: utils.assetsPath('css/[name].[contenthash].css'),
       allChunks: true
     }),
-    new tetPlugin(function(assets, env) {
+    new HtmlWebpackAssetPrefix(function(assets, env) {
       return __domain[env].projectPath + assets.replace('../', '');
     }),
     // generate dist index.html with correct asset hash for caching.
