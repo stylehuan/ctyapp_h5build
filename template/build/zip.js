@@ -23,7 +23,7 @@ zipper.zip(path.join(__dirname, '../dist'), function (error, zipped) {
         // or save the zipped file to disk
         console.log();
         var date = formatDate(+new Date());
-        zipped.save("./{{ name }}" + date + ".zip", function (error) {
+        zipped.save("./godofwalth" + date + ".zip", function (error) {
             if (!error) {
                 console.log("saved successfully");
             }

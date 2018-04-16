@@ -11,7 +11,7 @@ import Vue from 'vue';
 Vue.use(appInterface);
 Vue.use(snail);
 
-const toast = Vue.$Snail.toast;
+const toast = snail.toast;
 const CODE = {
   //网络异常
   '555'() {

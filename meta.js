@@ -27,7 +27,7 @@ module.exports = {
         "assetsPath": {
             "type": "string",
             "required": false,
-            "message": "Project assets directory",
+            "message": "FTP directory",
             "default": ""
         },
         "rem":{

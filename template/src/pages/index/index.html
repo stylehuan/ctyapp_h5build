@@ -9,7 +9,8 @@
   <meta http-equiv="Pragma" content="no-cache">
   <meta http-equiv="Cache-control" content="no-cache">
   <script type="text/javascript">
-    (function () {
+    {{#rem}}
+    (function() {
       var win = window;
       var doc = win.document;
       var psdWidth = 750;
@@ -23,15 +24,15 @@
       }
       metaEl.setAttribute('content', 'width=device-width,user-scalable=no,initial-scale=1,maximum-scale=1,minimum-scale=1');
 
-      var resizeRem = function () {
+      var resizeRem = function() {
         doc.documentElement.style.fontSize = window.innerWidth / psdWidth * 100 + 'px';
       };
 
-      win.addEventListener('resize', function () {
+      win.addEventListener('resize', function() {
         clearTimeout(tid);
         tid = setTimeout(resizeRem, throttleTime);
       }, false);
-      win.addEventListener('pageshow', function (e) {
+      win.addEventListener('pageshow', function(e) {
         if (e.persisted) {
           clearTimeout(tid);
           tid = setTimeout(resizeRem, throttleTime);
@@ -42,23 +43,32 @@
       if (doc.readyState === 'complete') {
         resizeRem();
       } else {
-        doc.addEventListener('DOMContentLoaded', function (e) {
+        doc.addEventListener('DOMContentLoaded', function(e) {
           resizeRem();
         }, false);
       }
     })();
+    {{/rem}}
+
+    var DOMAINS = <%= htmlWebpackPlugin.options.domains %>;
   </script>
 </head>
 <body>
 <div id="app"></div>
-<% if (htmlWebpackPlugin.options.env) {%>
-<script type="text/javascript"
-        src="https://res.wx.qq.com/mmbizwap/zh_CN/htmledition/js/vconsole/2.5.1/vconsole.min.js"></script>
+<% if (htmlWebpackPlugin.options.env !== '正式版') {%>
+<script src="//cdn.bootcss.com/eruda/1.4.2/eruda.min.js"></script>
+<script>eruda.init();</script>
 <% } %>
 <% if (htmlWebpackPlugin.options.isLocal) {%>
 <script type="text/javascript" src="./static/headers.js"></script>
 <% } %>
-<script type="text/javascript" src="//static.tcy365.com/cdn/vue/2.5.2/vue.min.js"></script>
 <script type="text/javascript" src="//static.tcy365.com/cdn/fastClick/1.0.6/fastclick.min.js"></script>
+<script type="text/javascript" src="//static.tcy365.com/cdn/vue/2.5.2/vue.min.js"></script>
+{{#router}}
+<script type="text/javascript" src="//static.tcy365.com/cdn/vue-router/3.0.1/vue-router.min.js"></script>
+{{/router}}
+<% if (htmlWebpackPlugin.options.env === '正式版') {%>
+
+<% } %>
 </body>
 </html>

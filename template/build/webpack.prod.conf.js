@@ -1,21 +1,60 @@
-var path = require('path')
-var utils = require('./utils')
-var webpack = require('webpack')
-var config = require('../config')
-var merge = require('webpack-merge')
-var baseWebpackConfig = require('./webpack.base.conf')
-var HtmlWebpackPlugin = require('html-webpack-plugin')
-var ExtractTextPlugin = require('extract-text-webpack-plugin');
-var CopyWebpackPlugin = require('copy-webpack-plugin');
+const path = require('path');
+const utils = require('./utils');
+const webpack = require('webpack');
+const config = require('../config');
+const merge = require('webpack-merge');
+const baseWebpackConfig = require('./webpack.base.conf');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
+const tetPlugin = require('../html-webpack-html-asset-prefix');
+const FileManagerPlugin = require('filemanager-webpack-plugin');
+const domains = require('../config/domain');
+const glob = require('glob');
+const __domain = domains;
+const htmlTemplate = (function() {
+  const arr = [];
 
-var webpackConfig = merge(baseWebpackConfig, {
+  for (const i in __domain) {
+    //排除生成本地开发
+    if (__domain.hasOwnProperty(i) && i !== 'dev') {
+      const entryHtml = glob.sync(utils.PAGE_PATH + '/*/*.html');
+
+      entryHtml.forEach(filePath => {
+        const filename = filePath.substring(filePath.lastIndexOf('\/') + 1, filePath.lastIndexOf('.'));
+        const conf = {
+          // 模板来源
+          template: filePath,
+          // 文件名称,
+          filename: path.resolve(__dirname, '../dist', i, filename + '.html'),
+          // 页面模板需要加对应的js脚本，如果不加这行则每个页面都会引入所有的js脚本
+          chunks: ['manifest', 'vendor', filename],
+          inject: true,
+          env: i,
+          domains: JSON.stringify(__domain[i]),
+          minify: {
+            removeComments: true,
+            minifyJS: true,
+            collapseWhitespace: true,
+            removeAttributeQuotes: true
+          },
+          chunksSortMode: 'dependency'
+        };
+
+        arr.push(new HtmlWebpackPlugin(conf));
+      });
+    }
+  }
+  return arr;
+})();
+const webpackConfig = merge(baseWebpackConfig, {
   module: {
     rules: utils.styleLoaders({
       sourceMap: false,
       extract: true
     })
   },
-  devtool: config[process.env.NODE_ENV].productionSourceMap ? '#source-map' : false,
+  devtool: false,
   output: {
     filename: utils.assetsPath('js/[name].[chunkhash].js'),
     chunkFilename: utils.assetsPath('js/[id].[chunkhash].js')
@@ -31,29 +70,16 @@ var webpackConfig = merge(baseWebpackConfig, {
       filename: utils.assetsPath('css/[name].[contenthash].css'),
       allChunks: true
     }),
+    new tetPlugin(function(assets, env) {
+      return __domain[env].projectPath + assets.replace('../', '');
+    }),
     // generate dist index.html with correct asset hash for caching.
     // you can customize output by editing /index.html
     // see https://github.com/ampedandwired/html-webpack-plugin
-    new HtmlWebpackPlugin({
-      filename: config[process.env.NODE_ENV].index,
-      template: 'index.html',
-      inject: true,
-      env: false,
-      minify: {
-        removeComments: true,
-        minifyJS: true,
-        collapseWhitespace: true,
-        removeAttributeQuotes: true
-        // more options:
-        // https://github.com/kangax/html-minifier#options-quick-reference
-      },
-      // necessary to consistently work with multiple chunks via CommonsChunkPlugin
-      chunksSortMode: 'dependency'
-    }),
 // split vendor js into its own file
     new webpack.optimize.CommonsChunkPlugin({
       name: 'vendor',
-      minChunks: function (module, count) {
+      minChunks: function(module, count) {
         // any required modules inside node_modules are extracted to vendor
         return (
           module.resource &&
@@ -73,13 +99,22 @@ var webpackConfig = merge(baseWebpackConfig, {
     new CopyWebpackPlugin([
       {
         from: path.resolve(__dirname, '../static'),
-        to: config[process.env.NODE_ENV].assetsSubDirectory
+        to: 'assets'
       }
-    ])
-  ]
+    ]),
+    new FileManagerPlugin({
+      onEnd: {
+        delete: [
+          './dist/assets/headers.js'
+        ],
+        move: [{source: './dist/images', destination: './dist/assets/images'}]
+      }
+    })
+  ].concat(htmlTemplate)
 });
+
 if (config[process.env.NODE_ENV].productionGzip) {
-  var CompressionWebpackPlugin = require('compression-webpack-plugin')
+  const CompressionWebpackPlugin = require('compression-webpack-plugin');
   webpackConfig.plugins.push(
     new CompressionWebpackPlugin({
       asset: '[path].gz[query]',
@@ -95,8 +130,8 @@ if (config[process.env.NODE_ENV].productionGzip) {
   )
 }
 if (config[process.env.NODE_ENV].bundleAnalyzerReport) {
-  var BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
-  webpackConfig.plugins.push(new BundleAnalyzerPlugin())
-}
+  const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
+  webpackConfig.plugins.push(new BundleAnalyzerPlugin());
+}
 module.exports = webpackConfig;

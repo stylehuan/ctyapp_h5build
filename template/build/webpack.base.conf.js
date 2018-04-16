@@ -1,21 +1,18 @@
-var path = require('path')
-var utils = require('./utils')
-var webpack = require('webpack')
-var config = require('../config')
-var vueLoaderConfig = require('./vue-loader.conf')
+const path = require('path');
+const utils = require('./utils');
+const config = require('../config');
+const vueLoaderConfig = require('./vue-loader.conf');
+const merge = require('webpack-merge');
 
 function resolve(dir) {
-  return path.join(__dirname, '..', dir)
+  return path.join(__dirname, '..', dir);
 }
 
 let webpackConfig = {
-  entry: {
-    app: './src/main.js'
-  },
+  entry: utils.entries(),
   output: {
     path: config[process.env.NODE_ENV].assetsRoot,
-    filename: '[name].js',
-    publicPath: config[process.env.NODE_ENV].assetsPublicPath
+    filename: '[name].js'
   },
   resolve: {
     extensions: ['.js', '.vue', '.json'],
@@ -26,7 +23,9 @@ let webpackConfig = {
     alias: {
       'vue$': 'vue/dist/vue.common.js',
       'src$': resolve('src'),
-      'assets$': resolve('src/assets'),
+      '~assets': resolve('src/assets'),
+      '~config': resolve('src/config'),
+      '~styles': resolve('src/styles'),
       'components$': resolve('src/components'),
       'util$': resolve('src/util'),
       'define$': resolve('src/define'),
@@ -68,8 +67,8 @@ let webpackConfig = {
         use: [{
           loader: 'url-loader',
           query: {
-            limit: 10000,
-            name: utils.assetsPath('images/[name].[hash:7].[ext]')
+            limit: 100,
+            name: 'images/[name].[hash:7].[ext]'
           }
         },
           {
@@ -114,15 +113,25 @@ let webpackConfig = {
         }
       }
     ]
-  },
-  plugins: [new webpack.DefinePlugin({
-    __domain: JSON.stringify(config[process.env.NODE_ENV].domain),
-    _ENV: {
-      isLocal: process.env.NODE_ENV === 'dev',
-      isTest: process.env.NODE_ENV === '1505' || process.env.NODE_ENV === '1506' || process.env.NODE_ENV === '1507',
-      isPre: process.env.NODE_ENV === '2505'
-    }
-  }),]
+  }
 };
 
-module.exports = webpackConfig;
+module.exports = merge(webpackConfig, {
+  plugins: [
+    // {
+    //   name: 'vux-ui'
+    // },
+    // {
+    //   name: 'less-theme',
+    //   path: 'src/assets/theme.less'
+    // },
+
+    //webpack manifest文件inline
+    // {
+    //   name: 'inline-manifest'
+    // },
+    // {
+    //   name: 'duplicate-style'
+    // }
+  ]
+});

@@ -12,7 +12,7 @@ var webpackConfig = require('./webpack.prod.conf');
 var spinner = ora('building for production...')
 spinner.start()
 
-var assetsPath = path.join('../dist');
+var assetsPath = path.join(__dirname, '../dist');
 
 shell.rm('-rf', assetsPath)
 shell.mkdir('-p', assetsPath)

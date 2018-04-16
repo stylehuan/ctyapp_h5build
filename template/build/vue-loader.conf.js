@@ -1,14 +1,18 @@
-var utils = require('./utils')
-var config = require('../config')
-var postCssConf = require("../config/postcss");
-var px2rem = require("postcss-plugin-px2rem");
+const utils = require('./utils');
+{{#rem}}
+const postCssConf = require("../config/postcss");
+const px2rem = require("postcss-plugin-px2rem");
+{{/rem}}
 module.exports = {
   loaders: utils.cssLoaders({
     sourceMap: false,
     extract: process.env.NODE_ENV !== 'dev'
   }),
   postcss: [
-    require('autoprefixer')(),
-    px2rem(postCssConf)
+    require('autoprefixer')({
+      browsers: ["iOS >= 7",
+        "Android > 4.0"]
+    }){{#rem}},
+    px2rem(postCssConf){{/rem}}
   ]
 };
