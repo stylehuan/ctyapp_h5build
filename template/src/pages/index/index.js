@@ -2,6 +2,7 @@ import 'babel-polyfill';
 import Vue from 'vue';
 import App from './App';
 import fastclick from 'fastclick';
+import '../../config/webpack_runtime_path';
 import config from '~config/config';
 {{#router}}
 import VueRouter from 'vue-router';
